@@ -24,7 +24,7 @@ int		print_zd(long d, t_param *p)
 	if ((p->flags[PLUS] || p->flags[SPACE]) && d >= 0)
 	{
 		ici = 1;
-		pchar (p->flags[PLUS] ? '+' : 32)
+		p->flags[PLUS] ? pchar('+') : pchar(32);
 		(ret)++;
 	}
 	if (d < 0)
@@ -101,7 +101,7 @@ int		print_zbx(size_t x, t_param *p)
 	ret = 2 * b;
 	while (p->precision-- > len_ulong(x, 16) && ret++)
 		pchar('0');
-	pulong_base_up(x, 16);
+	pulong_base_ucase(x, 16);
 	ret += len_ulong(x, 16);
 	return (ret);
 }

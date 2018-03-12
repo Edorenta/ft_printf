@@ -25,7 +25,8 @@ SRC_RAW		=	ft_printf			conv_picker				get_flags			\
 				mod_cs				mod_d					mod_h				\
 				mod_hh				mod_j					mod_l				\
 				mod_ll				mod_z					print_plain			\
-				print_plain2
+				print_plain2		print_j					print_l				\
+				print_z
 
 #SRC_RAW2	= $(addprefix ${SRC_PREFIX},${SRC_RAW})
 SRC_FILES	= $(addsuffix $(SRC_SUFFIX),$(SRC_RAW))
