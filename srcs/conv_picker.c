@@ -12,24 +12,50 @@
 
 #include "../include/ft_printf.h"
 
-int		len_ll(long long n, long long base)
+void	fmt_handle(const char *str, t_param *p)
 {
-	return (n == 0 ? 1 : (len_uint(n /= base, base) + 1));
-}
-
-int		uitab_len(unsigned int *s)
-{
-	int		i;
-	int		ret;
+	const char	*conv = "sSpdDioOuUxXcCb";
+	int			i;
 
 	i = 0;
-	ret = 0;
-	if (!s)
-		return (0);
-	while (s[i] != 0)
+	while (i < 15)
 	{
-		ret += get_nb_bytes(s[i]);
+		if (str[p->i] == conv[i])
+		{
+			p->j += p->basic_conv[i].ptr(p);
+			return ;
+		}
 		i++;
 	}
-	return (ret);
+	if (str[p->i] == '%')
+		(p->j) += print_pct(p);
+	else
+	{
+		p->i--;
+		p->j += print_spaces(p);
+	}
+}
+
+void	fmt_mods(const char *str, t_param *p)
+{
+	const	char	*conv = "diouxX";;
+	int				i;
+
+	i = 0;
+	while (i < 36) 
+	{
+		if (str[p->i] == conv[i % 6] && p->flags[i / 6 + 5])
+		{
+			p->j += p->adv_conv[i].ptr(p);
+			return ;
+		}
+		i++;
+	}
+	if (str[p->i] == '%')
+		p->j += print_pct(p);
+	else
+	{
+		p->i--;
+		p->j += print_spaces(p);
+	}
 }

@@ -12,95 +12,91 @@
 
 #include "../include/ft_printf.h"
 
-int		fmt_i(va_list *va, int *flags)
+int		fmt_i(t_param *p)
 {
-	return (fmt_d(va, flags));
+	return (fmt_d(p));
 }
 
-int		fmt_o(va_list *va, int *flags)
+int		fmt_o(t_param *p)
 {
 	int		ret;
 	int		o;
-	int		prec;
 
-	prec = flags[12];
 	ret = 0;
-	o = va_arg(*va, int);
-	if (flags[13] && o == 0 && !flags[0])
-		return (print_spaces(flags));
-	if (flags[2])
-		ret += print_o(o, flags);
-	if (flags[1] && !prec && !flags[2])
-		while (flags[11]-- > len_int(o, 8) && ret++ > -1)
+	o = va_arg(p->va, int);
+	if (!(p->precision) && o == 0 && !p->flags[HASH])
+		return (print_spaces(p));
+	if (p->flags[LEFT])
+		ret += print_o(o, p);
+	if (p->flags[ZPAD] && !p->precision && !p->flags[LEFT])
+		while (p->padding-- > len_int(o, 8) && ret++)
 			pchar('0');
-	while (flags[11]-- > (flags[0] && o != 0) +
-			(prec > len_int(o, 8) ? prec : len_int(o, 8))
-			&& ret++ > -1)
-		pchar(' ');
-	if (!flags[2])
-		ret += print_o(o, flags);
+	while (p->padding-- > (p->flags[HASH] && o != 0) +
+			(p->precision > len_int(o, 8) ? p->precision : len_int(o, 8))
+			&& ret++)
+		pchar(32);
+	if (!p->flags[LEFT])
+		ret += print_o(o, p);
 	return (ret);
 }
 
-int		fmt_bo(va_list *va, int *flags)
+int		fmt_bo(t_param *p)
 {
 	int		ret;
 	long	o;
 
 	ret = 0;
-	o = va_arg(*va, long);
-	if (flags[13] && !flags[0] && o == 0)
-		return (print_spaces(flags));
-	if (flags[2])
-		ret += print_bo(o, flags);
-	if (flags[1] && !flags[12] && !flags[2])
-		while (flags[11]-- > len_long(o, 8) && ret++ > -1)
+	o = va_arg(p->va, long);
+	if (!(p->precision) && !p->flags[HASH] && o == 0)
+		return (print_spaces(p));
+	if (p->flags[LEFT])
+		ret += print_bo(o, p);
+	if (p->flags[ZPAD] && !p->precision && !p->flags[LEFT])
+		while (p->padding-- > len_long(o, 8) && ret++)
 			pchar('0');
-	while (flags[11]-- > (flags[0] && o != 0) +
-			(flags[12] > len_long(o, 8) ? flags[12] : len_long(o, 8))
-			&& ret++ > -1)
-		pchar(' ');
-	if (!flags[2])
-		ret += print_bo(o, flags);
+	while (p->padding-- > (p->flags[HASH] && o != 0) +
+			(p->precision > len_long(o, 8) ? p->precision : len_long(o, 8))
+			&& ret++)
+		pchar(32);
+	if (!p->flags[LEFT])
+		ret += print_bo(o, p);
 	return (ret);
 }
 
-int		fmt_u(va_list *va, int *flags)
+int		fmt_u(t_param *p)
 {
 	int				ret;
 	unsigned int	u;
 
 	ret = 0;
-	u = va_arg(*va, unsigned int);
-	if (flags[13] && u == 0)
-		return (print_spaces(flags));
-	if (flags[2])
-		ret += print_u(u, flags);
-	while (flags[11]-- > (flags[12] > len_uint(u, 10) ?
-				flags[12] : len_uint(u, 10))
-			&& ret++ > -1)
-		flags[1] ? pchar('0') : pchar(' ');
-	if (!flags[2])
-		ret += print_u(u, flags);
+	u = va_arg(p->va, unsigned int);
+	if (!(p->precision) && u == 0)
+		return (print_spaces(p));
+	if (p->flags[LEFT])
+		ret += print_u(u, p);
+	while (p->padding-- > (p->precision > len_uint(u, 10) ?
+				p->precision : len_uint(u, 10)) && ret++)
+		p->flags[ZPAD] ? pchar('0') : pchar(32);
+	if (!p->flags[LEFT])
+		ret += print_u(u, p);
 	return (ret);
 }
 
-int		fmt_bu(va_list *va, int *flags)
+int		fmt_bu(t_param *p)
 {
 	int				ret;
 	unsigned long	u;
 
 	ret = 0;
-	u = va_arg(*va, unsigned long);
-	if (flags[13] && u == 0)
-		return (print_spaces(flags));
-	if (flags[2])
-		ret += print_bu(u, flags);
-	while (flags[11]-- > (flags[12] > len_ulong(u, 10) ?
-				flags[12] : len_ulong(u, 10))
-			&& ret++ > -1)
-		pchar(' ');
-	if (!flags[2])
-		ret += print_bu(u, flags);
+	u = va_arg(p->va, unsigned long);
+	if (!(p->precision) && u == 0)
+		return (print_spaces(p));
+	if (p->flags[LEFT])
+		ret += print_bu(u, p);
+	while (p->padding-- > (p->precision > len_ulong(u, 10) ?
+				p->precision : len_ulong(u, 10)) && ret++)
+		pchar(32);
+	if (!p->flags[LEFT])
+		ret += print_bu(u, p);
 	return (ret);
 }

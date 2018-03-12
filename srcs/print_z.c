@@ -12,7 +12,7 @@
 
 #include "../include/ft_printf.h"
 
-int		print_zd(long d, int *flags)
+int		print_zd(long d, t_param *p)
 {
 	int		ret;
 	int		ici;
@@ -21,10 +21,10 @@ int		print_zd(long d, int *flags)
 	q = 0;
 	ici = 0;
 	ret = 0;
-	if ((flags[3] || flags[4]) && d >= 0)
+	if ((p->flags[PLUS] || p->flags[SPACE]) && d >= 0)
 	{
 		ici = 1;
-		pchar (flag[3] ? '+' : 32)
+		pchar (p->flags[PLUS] ? '+' : 32)
 		(ret)++;
 	}
 	if (d < 0)
@@ -36,70 +36,70 @@ int		print_zd(long d, int *flags)
 		ret++;
 		d = -d;
 	}
-	if (flags[1] && !flags[12] && !flags[2])
-		while (flags[11]-- > len_long(d, 10) + ici && ret++ > -1)
+	if (p->flags[ZPAD] && !p->precision && !p->flags[LEFT])
+		while (p->padding-- > len_long(d, 10) + ici && ret++)
 			pchar('0');
-	while (flags[12]-- > len_long(d, 10) && ret++ > -1)
+	while (p->precision-- > len_long(d, 10) && ret++)
 		pchar('0');
 	plong_base(d, 10);
 	ret += len_long(d, 10) - q;
 	return (ret);
 }
 
-int		print_zo(size_t d, int *flags)
+int		print_zo(size_t d, t_param *p)
 {
 	int		ret;
 	int		b;
 
-	b = (d != 0) && flags[0] && (flags[12] <= len_ulong(d, 8));
+	b = (d != 0) && p->flags[HASH] && (p->precision <= len_ulong(d, 8));
 	if (b)
 		pchar('0');
 	ret = b;
-	while (flags[12]-- > b + len_ulong(d, 8) && ret++ > -1)
+	while (p->precision-- > b + len_ulong(d, 8) && ret++)
 		pchar('0');
 	pulong_base(d, 8);
 	ret += len_ulong(d, 8);
 	return (ret);
 }
 
-int		print_zu(size_t d, int *flags)
+int		print_zu(size_t d, t_param *p)
 {
 	int		ret;
 
 	ret = 0;
-	while (flags[12]-- > len_ulong(d, 10) && ret++ > -1)
+	while (p->precision-- > len_ulong(d, 10) && ret++)
 		pchar('0');
 	pulong_base(d, 10);
 	ret += len_ulong(d, 10);
 	return (ret);
 }
 
-int		print_zx(size_t x, int *flags)
+int		print_zx(size_t x, t_param *p)
 {
 	int		ret;
 	int		b;
 
-	b = (x != 0) && flags[0];
+	b = (x != 0) && p->flags[HASH];
 	if (b)
 		pstr("0x");
 	ret = 2 * b;
-	while (flags[12]-- > len_ulong(x, 16) && ret++ > -1)
+	while (p->precision-- > len_ulong(x, 16) && ret++)
 		pchar('0');
 	pulong_base(x, 16);
 	ret += len_ulong(x, 16);
 	return (ret);
 }
 
-int		print_zbx(size_t x, int *flags)
+int		print_zbx(size_t x, t_param *p)
 {
 	int		ret;
 	int		b;
 
-	b = (x != 0) && flags[0];
+	b = (x != 0) && p->flags[HASH];
 	if (b)
 		pstr("0X");
 	ret = 2 * b;
-	while (flags[12]-- > len_ulong(x, 16) && ret++ > -1)
+	while (p->precision-- > len_ulong(x, 16) && ret++)
 		pchar('0');
 	pulong_base_up(x, 16);
 	ret += len_ulong(x, 16);

@@ -12,44 +12,43 @@
 
 #include "../include/ft_printf.h"
 
-void	pulong_base_up(unsigned long n, unsigned long base)
-{
-	if (n >= base)
-		pulong_base_up(n / base, base);
-	pchar(base_ucase[n % base]);
-}
-
-void	pull_base(unsigned long long n, unsigned long long base)
-{
-	if (n >= base)
-		pull_base(n / base, base);
-	pchar(base_lcase[n % base]);
-}
-
-void	pll_base(long long n, long long base)
+void	pnbr_base(int n, uint8_t base)
 {
 	if (base == 10 && n < 0)
-	{
 		pchar('-');
-		if (n == LLONG_MIN && (n /= 10))
-			pchar('9');
-		n *= -1;
-	}
-	if (n >= base)
-		pll_base(n / base, base);
+	if ((n = (n < 0 ? -n : n)) >= base)
+		pnbr_base(n / base, base);
 	pchar(base_lcase[n % base]);
 }
 
-void	pull_base_up(unsigned long long n, unsigned long long base)
+void	pnbr_base_ucase(int n, uint8_t base)
 {
-	if (n >= base)
-		pull_base_up(n / base, base);
+	if (base == 10 && n < 0)
+		pchar('-');
+	if ((n = (n < 0 ? -n : n)) >= base)
+		pnbr_base_ucase(n / base, base);
 	pchar(base_ucase[n % base]);
 }
 
-void	puint_base_up(unsigned int n, unsigned int base)
+void	plong_base(long n, uint8_t base)
+{
+	if (base == 10 && n < 0)
+		pchar('-');
+	if ((n = (n < 0 ? -n : n)) >= base)
+		plong_base(n / base, base);
+	pchar(base_lcase[n % base]);
+}
+
+void	puint_base(unsigned int n, uint8_t base)
 {
 	if (n >= base)
-		puint_base_up(n / base, base);
-	pchar(base_ucase[n % base]);
+		puint_base(n / base, base);
+	pchar(base_lcase[n % base]);
+}
+
+void	pulong_base(unsigned long n, uint8_t base)
+{
+	if (n >= base)
+		pulong_base(n / base, base);
+	pchar(base_lcase[n % base]);
 }

@@ -12,95 +12,78 @@
 
 #include "../include/ft_printf.h"
 
-int		eof(char c)
-{
-	if (c != '#' && c != '0' && c != '-' && c != '+' && c != ' ')
-		return (1);
-	return (0);
-}
-
 void	get_precision(const char *str, t_param *p)
 {
-	p->flags[11] = str[p->i] == '*' ? va_arg(p->va, int) : ft_atoi(&str[p->i]);
-	if (p->flags[11] || str[p->i] == '*')
-		p->i += str[p->i] == '*' ? 1 : length_int(p->flags[11], 10);
+	p->padding = str[p->i] == '*' ? va_arg(p->va, int) : ft_atoi(&str[p->i]);
+	if (p->padding || str[p->i] == '*')
+		p->i += str[p->i] == '*' ? 1 : len_int(p->padding, 10);
 	if (str[p->i] == '.')
 	{
-		if (str[p->i + 1] == '*')
-		{
-			if ((p->flags[12] = va_arg(p->va, int)) == 0)
-				p->flags[13] = 1;
-			p->i += 2;
-		}
+		if (str[p->i + 1] == '*' && (p->i += 2))
+			(p->precision = va_arg(p->va, int));
 		else
 		{
 			p->i++;
-			if (str[p->i] >= '0' && str[p->i] <= '9')
-			{
-				p->flags[12] = ft_atoi(&str[p->i]);
-				if (p->flags[12] == 0)
-					p->flags[13] = 1;
-				p->i += length_int(p->flags[12], 10);
-			}
-			else
-				p->flags[13] = 1;
+			if (is_digit(str[p->i]) && (p->precision = ft_atoi(&str[p->i])))
+				p->i += len_int(p->precision, 10);
 		}
+	}
+	if (p->padding < 0)
+	{
+		p->padding = - p->padding;
+		p->flags[LEFT] = true;
 	}
 }
 
 void	get_padding(const char *str, t_param *p)
 {
-	if (str[p->i] == '#')
-		p->flags[HASH] = 1;
-	if (str[p->i] == '0')
-		p->flags[ZPAD] = 1;
-	if (str[p->i] == '-')
-		p->flags[LEFT] = 1;
-	if (str[p->i] == '+')
-		p->flags[PLUS] = 1;
-	if (str[p->i] == ' ')
-		p->flags[SPACE] = 1;
-	p->i++;
-	if (!eof(str[p->i]))
-		get_padding(str, p);
-	else
-		get_precision(str, p);
-	if (p->flags[11] < 0)
+	while (str[p->i])
 	{
-		p->flags[11] *= -1;
-		p->flags[LEFT] = 1;
+		if (str[p->i] == '#')
+			p->flags[HASH] = true;
+		else if (str[p->i] == '0')
+			p->flags[ZPAD] = true;
+		else if (str[p->i] == '-')
+			p->flags[LEFT] = true;
+		else if (str[p->i] == '+')
+			p->flags[PLUS] = true;
+		else if (str[p->i] == ' ')
+			p->flags[SPACE] = true;
+		else
+			break;
+		p->i++;
 	}
 }
 
-void	get_length(char str[p->i], int *p->flags)
+void	get_len(const char *str, t_param *p)
 {
-	if (str[p->i] == 'z')
-		p->flags[_Z_] = 1;
+	if (str[p->i] == 'j')
+		(p->flags)[_J_] = true;
+	else if (str[p->i] == 'z')
+		p->flags[_Z_] = true;
 	else if (str[p->i] == 'h')
 	{
-		if (str[p->i + 1] == 'h')
-		{
-			p->flags[_HH_] = 1;
+		if (str[p->i + 1] == 'h' && (p->flags[_HH_] = true))
 			p->i++;
-		}
 		else
-			p->flags[_H_] = 1;
+			 (p->flags[_H_] = true);
 	}
 	else if (str[p->i] == 'l')
 	{
-		if (str[p->i + 1] == 'l')
-		{
-			p->flags[_LL_] = 1;
+		if (str[p->i + 1] == 'l' && (p->flags[_LL_] = true))
 			p->i++;
-		}
 		else
-			p->flags[_L_] = 1;
+			 (p->flags[_L_] = true);
 	}
 	else
-		p->i--;
+		p->i--;		
 }
 
-int		is_length_modifier(int p->flags)
+bool		is_len_mod(t_param *p)
 {
-	return (flags[5] + flags[6] + flags[7] + flags[8] + flags[9] + flags[10]);
+	if ((p->flags[_H_] || p->flags[_HH_]
+			|| p->flags[_L_] || p->flags[_LL_]
+			|| p->flags[_J_] || p->flags[_Z_]))
+		return (true);
+	return (false);
 }

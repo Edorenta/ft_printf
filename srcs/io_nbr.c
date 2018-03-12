@@ -12,43 +12,21 @@
 
 #include "../include/ft_printf.h"
 
-void	pnbr(int nb)
+void	pnbr(int n)
 {
-	if (nb < 0)
+	if (n < 0)
 		pchar('-');
-	if (nb == -2147483648)
-		return (pstr("2147483648"));
-	if ((nb = (nb < 0 ? -nb : nb)) >= 10)
-		pnbr(nb / 10);
-	pchar((nb % 10) + '0');
+	if ((n = (n < 0 ? -n : n)) >= 10)
+		pnbr(n / 10);
+	pchar((n % 10) + '0');
 }
 
 void	pnbr_oct(int n)
 {
-	int		i;
-
-	i = 0;
-	pnbr_base((n & 0xc0000000) >> 30, 8);
-	n <<= 2;
-	while (i < 10)
-	{
-		pnbr_base((n & 0xe0000000) >> 29, 8);
-		n <<= 3;
-		i++;
-	}
+	pnbr_base(n, 8);
 }
 
 void	plong_oct(long n)
 {
-	int		i;
-
-	i = 0;
-	pnbr_base((n & 0x8000000000000000) >> 63, 8);
-	n <<= 1;
-	while (i < 21)
-	{
-		pnbr_base((n & 0xe000000000000000) >> 61, 8);
-		n <<= 3;
-		i++;
-	}
+	plong_base(n, 8);
 }

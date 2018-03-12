@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../include/ft_printf.h"
+
 int		ft_atoi(const char *str)
 {
 	int	res;
@@ -30,10 +32,34 @@ void	ft_bzero(void *s, size_t n)
 {
 	char	*str;
 
-	str = (char*)s;
+	str = (char *)s;
 	while (n--)
 	{
 		*str = '\0';
 		str++;
 	}
+}
+
+int		print_spaces(t_param *p)
+{
+	int		n;
+
+	n = p->padding;
+	while (n--)
+		pchar(32);
+	return (p->padding);
+}
+
+int		print_pct(t_param *p)
+{
+	int		ret;
+
+	ret = 0;
+	if (p->flags[LEFT])
+		pchar('%');
+	while (p->padding-- > 1 && ret++)
+		p->flags[ZPAD] ? pchar('0') : pchar(32);
+	if (!p->flags[LEFT])
+		pchar('%');
+	return (++ret);
 }

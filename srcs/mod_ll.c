@@ -12,119 +12,115 @@
 
 #include "../include/ft_printf.h"
 
-int		fmt_lld(va_list *va, int *flags)
+int		fmt_lld(t_param *p)
 {
 	long long	d;
 	int			ret;
-	int			prec;
 
-	prec = flags[12];
 	ret = 0;
-	d = va_arg(*va, long long);
-	if (flags[13] && d == 0)
-		return (print_spaces(flags));
-	if (flags[2])
-		ret += print_jd(d, flags);
-	if ((!flags[1] || flags[2] || prec) && flags[11])
-		while (flags[11]-- > (flags[3] || flags[4])
-				+ (d < 0 && prec > len_ll(ABS(d), 10)) +
-				(prec > len_ll(d, 10) ? prec : len_ll(d, 10))
-				&& ret++ > -1)
-			pchar(' ');
-	if (!flags[2])
-		ret += print_jd(d, flags);
+	d = va_arg(p->va, long long);
+	if (!(p->precision) && d == 0)
+		return (print_spaces(p));
+	if (p->flags[LEFT])
+		ret += print_jd(d, p);
+	if ((!p->flags[ZPAD] || p->flags[LEFT] || p->precision) && p->padding)
+		while (p->padding-- > (p->flags[PLUS] || p->flags[SPACE])
+				+ (d < 0 && p->precision > len_ll(ABS(d), 10)) +
+				(p->precision > len_ll(d, 10) ? p->precision : len_ll(d, 10))
+				&& ret++)
+			pchar(32);
+	if (!p->flags[LEFT])
+		ret += print_jd(d, p);
 	return (ret);
 }
 
-int		fmt_llo(va_list *va, int *flags)
+int		fmt_llo(t_param *p)
 {
 	unsigned long long	o;
 	int					ret;
-	int					prec;
 
-	prec = flags[12];
 	ret = 0;
-	o = va_arg(*va, unsigned long long);
-	if (flags[13] && o == 0 && !flags[0])
-		return (print_spaces(flags));
-	if (flags[2])
-		ret += print_jo(o, flags);
-	if (flags[1] && !flags[12] && !flags[2])
-		while (flags[11]-- > len_ull(o, 8) && ret++ > -1)
+	o = va_arg(p->va, unsigned long long);
+	if (!(p->precision) && o == 0 && !p->flags[HASH])
+		return (print_spaces(p));
+	if (p->flags[LEFT])
+		ret += print_jo(o, p);
+	if (p->flags[ZPAD] && !p->precision && !p->flags[LEFT])
+		while (p->padding-- > len_ull(o, 8) && ret++)
 			pchar('0');
-	while (flags[11]-- > (flags[0] && o != 0) +
-			(flags[12] > len_ull(o, 8) ? flags[12] : len_ull(o, 8))
-			&& ret++ > -1)
-		pchar(' ');
-	if (!flags[2])
-		ret += print_jo(o, flags);
+	while (p->padding-- > (p->flags[HASH] && o != 0) +
+			(p->precision > len_ull(o, 8) ? p->precision : len_ull(o, 8))
+			&& ret++)
+		pchar(32);
+	if (!p->flags[LEFT])
+		ret += print_jo(o, p);
 	return (ret);
 }
 
-int		fmt_llu(va_list *va, int *flags)
+int		fmt_llu(t_param *p)
 {
 	unsigned long long	u;
 	int					ret;
 
 	ret = 0;
-	u = va_arg(*va, unsigned long long);
-	if (flags[13] && u == 0)
-		return (print_spaces(flags));
-	if (flags[2])
-		ret += print_ju(u, flags);
-	while (flags[11]-- > (flags[12] > len_ull(u, 10) ?
-				flags[12] : len_ull(u, 10))
-			&& ret++ > -1)
-		pchar(' ');
-	if (!flags[2])
-		ret += print_ju(u, flags);
+	u = va_arg(p->va, unsigned long long);
+	if (!(p->precision) && u == 0)
+		return (print_spaces(p));
+	if (p->flags[LEFT])
+		ret += print_ju(u, p);
+	while (p->padding-- > (p->precision > len_ull(u, 10) ?
+				p->precision : len_ull(u, 10))
+			&& ret++)
+		pchar(32);
+	if (!p->flags[LEFT])
+		ret += print_ju(u, p);
 	return (ret);
 }
 
-int		fmt_llx(va_list *va, int *flags)
+int		fmt_llx(t_param *p)
 {
 	unsigned long long	x;
 	int					ret;
 	int					ln;
 
 	ret = 0;
-	x = va_arg(*va, unsigned long long);
-	if (flags[13] && x == 0)
-		return (print_spaces(flags));
-	ln = (flags[12] > len_ull(x, 16)) ? flags[12] : len_ull(x, 16)
-		+ 2 * (flags[0] && x != 0);
-	if (flags[2])
-		ret += print_jx(x, flags);
-	if (flags[1] && !flags[12] && !flags[2])
-		while (flags[11]-- > ln && ret++ > -1)
+	x = va_arg(p->va, unsigned long long);
+	if (!(p->precision) && x == 0)
+		return (print_spaces(p));
+	ln = (p->precision > len_ull(x, 16)) ? p->precision : len_ull(x, 16)
+		+ 2 * (p->flags[HASH] && x != 0);
+	if (p->flags[LEFT])
+		ret += print_jx(x, p);
+	if (p->flags[ZPAD] && !p->precision && !p->flags[LEFT])
+		while (p->padding-- > ln && ret++)
 			pchar('0');
-	while (!flags[1] && flags[11]-- > ln && ret++ > -1)
-		pchar(' ');
-	if (!flags[2])
-		ret += print_jx(x, flags);
+	while (!p->flags[ZPAD] && p->padding-- > ln && ret++)
+		pchar(32);
+	if (!p->flags[LEFT])
+		ret += print_jx(x, p);
 	return (ret);
 }
 
-int		fmt_llbx(va_list *va, int *flags)
+int		fmt_llbx(t_param *p)
 {
 	unsigned long long	x;
 	int					ret;
 	int					ln;
 
 	ret = 0;
-	x = va_arg(*va, unsigned long long);
-	if (flags[13] && x == 0)
-		return (print_spaces(flags));
-	ln = (flags[12] > len_ull(x, 16)) ? flags[12] : len_ull(x, 16)
-		+ 2 * (flags[0] && x != 0);
-	if (flags[2])
-		ret += print_jbx(x, flags);
-	if (flags[1] && !flags[12] && !flags[2])
-		while (flags[11]-- > ln && ret++ > -1)
+	x = va_arg(p->va, unsigned long long);
+	if (!(p->precision) && x == 0)
+		return (print_spaces(p));
+	ln = (p->precision > len_ull(x, 16)) ? p->precision : len_ull(x, 16)
+		+ 2 * (p->flags[HASH] && x != 0);
+	if (p->flags[LEFT])
+		ret += print_jbx(x, p);
+	if (p->flags[ZPAD] && !p->precision && !p->flags[LEFT])
+		while (p->padding-- > ln && ret++)
 			pchar('0');
-	while (!flags[1] && flags[11]-- > ln && ret++ > -1)
-		pchar(' ');
-	if (!flags[2])
-		ret += print_jbx(x, flags);
+	while (!p->flags[ZPAD] && p->padding-- > ln && ret++)
+		pchar(32);
+	if (!p->flags[LEFT])
+		ret += print_jbx(x, p);
 	return (ret);
 }

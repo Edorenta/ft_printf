@@ -12,99 +12,99 @@
 
 #include "../include/ft_printf.h"
 
-int		fmt_s(va_list *va, int *flags)
+int		fmt_s(t_param *p)
 {
 	int		ret;
 	char	*s;
 	int		lw;
 
 	ret = 0;
-	if (flags[13])
+	if (!(p->precision))
 	{
-		while (flags[PAD]-- && ret++)
+		while (p->padding-- && ret++)
 			pchar(32);
 		return (ret);
 	}
-	s = va_arg(*va, char *);
-	if (flags[12] && flags[12] < (int)slen(s) && flags[12] >= 0)
-		lw = flags[12];
+	s = va_arg(p->va, char *);
+	if (p->precision && p->precision < (int)slen(s) && p->precision >= 0)
+		lw = p->precision;
 	else
 		lw = s ? slen(s) : 6;
-	if (flags[LEFT])
-		ret += print_s(s, flags);
-	while (flags[PAD]-- > lw && ret++ > -1)
+	if (p->flags[LEFT])
+		ret += print_s(s, p);
+	while (p->padding-- > lw && ret++)
 		pchar(32);
-	if (!flags[LEFT])
-		ret += print_s(s, flags);
+	if (!p->flags[LEFT])
+		ret += print_s(s, p);
 	return (ret);
 }
 
-int		fmt_bs(va_list *va, int *flags)
+int		fmt_bs(t_param *p)
 {
 	int				ret;
 	unsigned int	*bs;
 
 	ret = 0;
-	if (flags[13])
+	if (!(p->precision))
 	{
-		while (flags[PAD]-- && ret++ > -1)
+		while (p->padding-- && ret++)
 			pchar(32);
 		return (ret);
 	}
-	bs = va_arg(*va, unsigned int *);
-	if (flags[LEFT])
+	bs = va_arg(p->va, unsigned int *);
+	if (p->flags[LEFT])
 		ret += print_bs(bs);
-	while (flags[PAD]-- > uitab_len(bs) && ret++ > -1)
+	while (p->padding-- > uitab_len(bs) && ret++)
 		pchar(32);
-	if (!flags[LEFT])
+	if (!p->flags[LEFT])
 		ret += print_bs(bs);
 	return (ret);
 }
 
-int		fmt_p(va_list *va, int *flags)
+int		fmt_p(t_param *p)
 {
 	int		ret;
-	long	p;
+	long	hex;
 
 	ret = 0;
-	p = va_arg(*va, long);
-	if (flags[LEFT])
-		ret += print_p(p, flags);
-	while (flags[PAD]-- > len_long(p, 16) + 2 && ret++ > -1)
+	hex = va_arg(p->va, long);
+	if (p->flags[LEFT])
+		ret += print_p(hex, p);
+	while (p->padding-- > len_long(hex, 16) + 2 && ret++)
 		pchar(32);
-	if (!flags[LEFT])
-		ret += print_p(p, flags);
+	if (!p->flags[LEFT])
+		ret += print_p(hex, p);
 	return (ret);
 }
 
-int		fmt_c(va_list *va, int *flags)
+int		fmt_c(t_param *p)
 {
 	int		ret;
 	int		c;
 
-	ret = flags[11] ? flags[11] : 1;
-	c = va_arg(*va, int);
-	if (flags[2])
+	ret = p->padding ? p->padding : 1;
+	c = va_arg(p->va, int);
+	if (p->flags[LEFT])
 		pchar(c);
-	while (flags[11]-- > 1)
-		pchar(' ');
-	if (!flags[2])
+	while (p->padding-- > 1)
+		pchar(32);
+	if (!p->flags[LEFT])
 		pchar(c);
 	return (ret);
 }
 
-int		fmt_bc(va_list *va, int *flags)
+int		fmt_bc(t_param *p)
 {
 	int					ret;
 	unsigned int		bc;
 
 	ret = 0;
-	bc = va_arg(*va, unsigned int);
-	if (flags[2])
+	bc = va_arg(p->va, unsigned int);
+	if (p->flags[LEFT])
 		ret += print_bc(bc);
-	while (flags[11]-- > (int)get_nb_bytes(bc) && ret++)
-		pchar(' ');
-	if (!flags[2])
+	while (p->padding-- > (int)get_nb_bytes(bc) && ret++)
+		pchar(32);
+	if (!p->flags[LEFT])
 		ret += print_bc(bc);
 	return (ret);
 }
