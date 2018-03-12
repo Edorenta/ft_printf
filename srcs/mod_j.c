@@ -19,7 +19,7 @@ int		fmt_jd(t_param *p)
 
 	ret = 0;
 	d = va_arg(p->va, intmax_t);
-	if (!(p->precision) && d == 0)
+	if (p->flags[NODIGIT] && d == 0)
 		return (print_spaces(p));
 	if (p->flags[LEFT])
 		ret += print_jd(d, p);
@@ -41,11 +41,11 @@ int		fmt_jo(t_param *p)
 
 	ret = 0;
 	o = va_arg(p->va, uintmax_t);
-	if (!(p->precision) && o == 0 && !p->flags[HASH])
+	if (p->flags[NODIGIT] && o == 0 && !p->flags[HASH])
 		return (print_spaces(p));
 	if (p->flags[LEFT])
 		ret += print_jo(o, p);
-	if (p->flags[ZPAD] && !p->precision && !p->flags[LEFT])
+	if (p->flags[ZPAD] && p->flags[NODIGIT] && !p->flags[LEFT])
 		while (p->padding-- > len_ull(o, 8) && ret++)
 			pchar('0');
 	while (p->padding-- > (p->flags[HASH] && o != 0) +
@@ -64,7 +64,7 @@ int		fmt_ju(t_param *p)
 
 	ret = 0;
 	u = va_arg(p->va, uintmax_t);
-	if (!(p->precision) && u == 0)
+	if (p->flags[NODIGIT] && u == 0)
 		return (print_spaces(p));
 	if (p->flags[LEFT])
 		ret += print_ju(u, p);
@@ -84,13 +84,13 @@ int		fmt_jx(t_param *p)
 
 	ret = 0;
 	x = va_arg(p->va, uintmax_t);
-	if (!(p->precision) && x == 0)
+	if (p->flags[NODIGIT] && x == 0)
 		return (print_spaces(p));
 	ln = (p->precision > len_ull(x, 16)) ? p->precision : len_ull(x, 16)
 		+ 2 * (p->flags[HASH] && x != 0);
 	if (p->flags[LEFT])
 		ret += print_jx(x, p);
-	if (p->flags[ZPAD] && !p->precision && !p->flags[LEFT])
+	if (p->flags[ZPAD] && p->flags[NODIGIT] && !p->flags[LEFT])
 		while (p->padding-- > ln && ret++)
 			pchar('0');
 	while (!p->flags[ZPAD] && p->padding-- > ln && ret++)
@@ -108,13 +108,13 @@ int		fmt_jbx(t_param *p)
 
 	ret = 0;
 	x = va_arg(p->va, uintmax_t);
-	if (!(p->precision) && x == 0)
+	if (p->flags[NODIGIT] && x == 0)
 		return (print_spaces(p));
 	ln = (p->precision > len_ull(x, 16)) ? p->precision : len_ull(x, 16)
 		+ 2 * (p->flags[HASH] && x != 0);
 	if (p->flags[LEFT])
 		x += print_jbx(x, p);
-	if (p->flags[ZPAD] && !p->precision && !p->flags[LEFT])
+	if (p->flags[ZPAD] && p->flags[NODIGIT] && !p->flags[LEFT])
 		while (p->padding-- > ln && ret++)
 			pchar('0');
 	while (!p->flags[ZPAD] && p->padding-- > ln && ret++)

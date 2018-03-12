@@ -24,11 +24,11 @@ int		fmt_o(t_param *p)
 
 	ret = 0;
 	o = va_arg(p->va, int);
-	if (!(p->precision) && o == 0 && !p->flags[HASH])
+	if (p->flags[NODIGIT] && o == 0 && !p->flags[HASH])
 		return (print_spaces(p));
 	if (p->flags[LEFT])
 		ret += print_o(o, p);
-	if (p->flags[ZPAD] && !p->precision && !p->flags[LEFT])
+	if (p->flags[ZPAD] && p->flags[NODIGIT] && !p->flags[LEFT])
 		while (p->padding-- > len_int(o, 8) && ret++)
 			pchar('0');
 	while (p->padding-- > (p->flags[HASH] && o != 0) +
@@ -47,11 +47,11 @@ int		fmt_bo(t_param *p)
 
 	ret = 0;
 	o = va_arg(p->va, long);
-	if (!(p->precision) && !p->flags[HASH] && o == 0)
+	if (p->flags[NODIGIT] && !p->flags[HASH] && o == 0)
 		return (print_spaces(p));
 	if (p->flags[LEFT])
 		ret += print_bo(o, p);
-	if (p->flags[ZPAD] && !p->precision && !p->flags[LEFT])
+	if (p->flags[ZPAD] && p->flags[NODIGIT] && !p->flags[LEFT])
 		while (p->padding-- > len_long(o, 8) && ret++)
 			pchar('0');
 	while (p->padding-- > (p->flags[HASH] && o != 0) +
@@ -70,7 +70,7 @@ int		fmt_u(t_param *p)
 
 	ret = 0;
 	u = va_arg(p->va, unsigned int);
-	if (!(p->precision) && u == 0)
+	if (p->flags[NODIGIT] && u == 0)
 		return (print_spaces(p));
 	if (p->flags[LEFT])
 		ret += print_u(u, p);
@@ -89,7 +89,7 @@ int		fmt_bu(t_param *p)
 
 	ret = 0;
 	u = va_arg(p->va, unsigned long);
-	if (!(p->precision) && u == 0)
+	if (p->flags[NODIGIT] && u == 0)
 		return (print_spaces(p));
 	if (p->flags[LEFT])
 		ret += print_bu(u, p);

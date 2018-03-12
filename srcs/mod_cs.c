@@ -19,14 +19,14 @@ int		fmt_s(t_param *p)
 	int		lw;
 
 	ret = 0;
-	if (!(p->precision))
+	if ((p->precision))
 	{
 		while (p->padding-- && ret++)
 			pchar(32);
 		return (ret);
 	}
 	s = va_arg(p->va, char *);
-	if (p->precision && p->precision < (int)slen(s) && p->precision >= 0)
+	if (p->precision && p->precision < (int)slen(s))
 		lw = p->precision;
 	else
 		lw = s ? slen(s) : 6;
@@ -45,7 +45,7 @@ int		fmt_bs(t_param *p)
 	unsigned int	*bs;
 
 	ret = 0;
-	if (!(p->precision))
+	if (p->flags[NODIGIT])
 	{
 		while (p->padding-- && ret++)
 			pchar(32);

@@ -1,5 +1,4 @@
 #include "include/ft_printf.h"
-#include "benchmark/include/printf.h"
 #include <stdio.h>
 
 int main()
@@ -9,9 +8,8 @@ int main()
 	double c = 100000;
 	void *x;
 	const char * restrict input =
-	"it works !! %o#\n";
-	printf(input, a);
-	bench_printf(input, a);
-	ft_printf(input, a);
+	"it works !! %s\n";
+	printf(input, b);
+	ft_printf(input, b);
 	return 0;
 }

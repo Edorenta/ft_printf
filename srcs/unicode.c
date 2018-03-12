@@ -83,7 +83,7 @@ int				print_bs(unsigned int *bs)
 	ret = 0;
 	if (!bs)
 	{
-		pstr("(null)\n");
+		pstr("(null)\n\0");
 		return (6);
 	}
 	while (bs[i] != 0)

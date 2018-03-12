@@ -42,7 +42,7 @@ int		print_p(long hex, t_param *p)
 
 	ret = 0;
 	pstr("0x");
-	if (!(p->precision) && hex == 0)
+	if (p->flags[NODIGIT] && hex == 0)
 		return (2);
 	if (p->precision && hex == 0)
 		while (p->precision-- > 1 && ret++)

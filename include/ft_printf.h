@@ -20,8 +20,9 @@
 # include <stdbool.h>
 # include "formats.h"
 
-# define BASE_UCASE     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-# define BASE_LCASE     "0123456789abcdefghijklmnopqrstuvwxyz"
+# define BASE_UCASE     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ\0"
+# define BASE_LCASE     "0123456789abcdefghijklmnopqrstuvwxyz\0"
+# define STR_NULL       "(null)\n\0"
 # define ABS(x) 		x < 0 ? -x : x
 # define HASH			0
 # define ZPAD			1

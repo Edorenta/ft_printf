@@ -33,6 +33,8 @@ void	get_precision(const char *str, t_param *p)
 		p->padding = - p->padding;
 		p->flags[LEFT] = true;
 	}
+	if (p->flags[NODIGIT])
+		p->flags[NODIGIT] = true;
 }
 
 void	get_padding(const char *str, t_param *p)
