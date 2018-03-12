@@ -18,7 +18,7 @@ void	pnbr_base(int n, uint8_t base)
 		pchar('-');
 	if ((n = (n < 0 ? -n : n)) >= base)
 		pnbr_base(n / base, base);
-	pchar(base_lcase[n % base]);
+	pchar(BASE_LCASE[n % base]);
 }
 
 void	pnbr_base_ucase(int n, uint8_t base)
@@ -27,7 +27,7 @@ void	pnbr_base_ucase(int n, uint8_t base)
 		pchar('-');
 	if ((n = (n < 0 ? -n : n)) >= base)
 		pnbr_base_ucase(n / base, base);
-	pchar(base_ucase[n % base]);
+	pchar(BASE_UCASE[n % base]);
 }
 
 void	plong_base(long n, uint8_t base)
@@ -36,19 +36,19 @@ void	plong_base(long n, uint8_t base)
 		pchar('-');
 	if ((n = (n < 0 ? -n : n)) >= base)
 		plong_base(n / base, base);
-	pchar(base_lcase[n % base]);
+	pchar(BASE_LCASE[n % base]);
 }
 
 void	puint_base(unsigned int n, uint8_t base)
 {
 	if (n >= base)
 		puint_base(n / base, base);
-	pchar(base_lcase[n % base]);
+	pchar(BASE_LCASE[n % base]);
 }
 
 void	pulong_base(unsigned long n, uint8_t base)
 {
 	if (n >= base)
 		pulong_base(n / base, base);
-	pchar(base_lcase[n % base]);
+	pchar(BASE_LCASE[n % base]);
 }

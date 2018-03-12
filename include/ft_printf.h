@@ -20,6 +20,8 @@
 # include <stdbool.h>
 # include "formats.h"
 
+# define BASE_UCASE     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+# define BASE_LCASE     "0123456789abcdefghijklmnopqrstuvwxyz"
 # define ABS(x) 		x < 0 ? -x : x
 # define HASH			0
 # define ZPAD			1
@@ -33,9 +35,6 @@
 # define _J_			9
 # define _Z_			10
 # define NODIGIT		11
-
-const	char	*base_ucase = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const	char	*base_lcase = "0123456789abcdefghijklmnopqrstuvwxyz";
 
 int		        ft_atoi(const char *str);
 void	        ft_bzero(void *s, size_t n);
