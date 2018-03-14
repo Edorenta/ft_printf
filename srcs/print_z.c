@@ -41,7 +41,7 @@ int		print_zd(long d, t_param *p)
 			pchar('0');
 	while (p->precision-- > len_long(d, 10) && ret++)
 		pchar('0');
-	plong(d, 10);
+	plong_base(d, 10);
 	ret += len_long(d, 10) - q;
 	return (ret);
 }
