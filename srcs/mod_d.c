@@ -26,7 +26,7 @@ int		fmt_x(t_param *p)
 		+ 2 * (p->flags[HASH] && x != 0);
 	if (p->flags[LEFT])
 		ret += print_x(x, p);
-	if (p->flags[ZPAD] && p->flags[NODIGIT] && !p->flags[LEFT])
+	if (p->flags[ZPAD] && !p->precision && !p->flags[LEFT])
 		while (p->padding-- > ln && ret++)
 			pchar('0');
 	while (!p->flags[ZPAD] && p->padding-- > ln && ret++)
@@ -50,7 +50,7 @@ int		fmt_bx(t_param *p)
 		+ 2 * (p->flags[HASH] && x != 0);
 	if (p->flags[LEFT])
 		ret += print_bx(x, p);
-	if (p->flags[ZPAD] && p->flags[NODIGIT] && !p->flags[LEFT])
+	if (p->flags[ZPAD] && !p->precision && !p->flags[LEFT])
 		while (p->padding-- > ln && ret++)
 			pchar('0');
 	while (!p->flags[ZPAD] && p->padding-- > ln && ret++)
@@ -71,7 +71,7 @@ int		fmt_b(t_param *p)
 		return (print_spaces(p));
 	if (p->flags[LEFT])
 		pnbr_base(b, 2);
-	if (p->flags[ZPAD] && p->flags[NODIGIT] && !p->flags[LEFT])
+	if (p->flags[ZPAD] && !p->precision && !p->flags[LEFT])
 		while (p->padding-- > len_int(b, 2) && ret++)
 			pchar('0');
 	while (!p->flags[ZPAD] && p->padding-- > len_int(b, 2) && ret++)

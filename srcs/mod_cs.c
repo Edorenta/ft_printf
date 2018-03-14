@@ -19,7 +19,7 @@ int		fmt_s(t_param *p)
 	int		lw;
 
 	ret = 0;
-	if ((p->precision))
+	if (p->flags[NODIGIT])
 	{
 		while (p->padding-- && ret++)
 			pchar(32);

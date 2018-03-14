@@ -20,12 +20,17 @@ void	get_precision(const char *str, t_param *p)
 	if (str[p->i] == '.')
 	{
 		if (str[p->i + 1] == '*' && (p->i += 2))
+		{
 			(p->precision = va_arg(p->va, int));
+			p->flags[NODIGIT] = true;
+		}
 		else
 		{
 			p->i++;
 			if (is_digit(str[p->i]) && (p->precision = ft_atoi(&str[p->i])))
 				p->i += len_int(p->precision, 10);
+			else
+				p->flags[NODIGIT] = true;
 		}
 	}
 	if (p->padding < 0)
@@ -33,7 +38,7 @@ void	get_precision(const char *str, t_param *p)
 		p->padding = - p->padding;
 		p->flags[LEFT] = true;
 	}
-	if (p->flags[NODIGIT])
+	if (!p->flags[NODIGIT] && !p->precision)
 		p->flags[NODIGIT] = true;
 }
 

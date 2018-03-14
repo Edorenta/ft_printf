@@ -36,7 +36,7 @@ int		print_jd(intmax_t d, t_param *p)
 		ret++;
 		d = -d;
 	}
-	if (p->flags[ZPAD] && p->flags[NODIGIT] && !p->flags[LEFT])
+	if (p->flags[ZPAD] && !p->precision && !p->flags[LEFT])
 		while (p->padding-- > len_ll(d, 10) + ici && ret++)
 			pchar('0');
 	while (p->precision-- > len_ll(d, 10) && ret++)

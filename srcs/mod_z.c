@@ -45,7 +45,7 @@ int		fmt_zo(t_param *p)
 		return (print_spaces(p));
 	if (p->flags[LEFT])
 		ret += print_zo(o, p);
-	if (p->flags[ZPAD] && p->flags[NODIGIT] && !p->flags[LEFT])
+	if (p->flags[ZPAD] && !p->precision && !p->flags[LEFT])
 		while (p->padding-- > len_ulong(o, 8) && ret++)
 			pchar('0');
 	while (p->padding-- > (p->flags[HASH] && o != 0) +
@@ -91,7 +91,7 @@ int		fmt_zx(t_param *p)
 		+ 2 * (p->flags[HASH] && x != 0);
 	if (p->flags[LEFT])
 		ret += print_zx(x, p);
-	if (p->flags[ZPAD] && p->flags[NODIGIT] && !p->flags[LEFT])
+	if (p->flags[ZPAD] && !p->precision && !p->flags[LEFT])
 		while (p->padding-- > ln && ret++)
 			pchar('0');
 	while (!p->flags[ZPAD] && p->padding-- > ln && ret++)
@@ -115,7 +115,7 @@ int		fmt_zbx(t_param *p)
 		+ 2 * (p->flags[HASH] && x != 0);
 	if (p->flags[LEFT])
 		ret += print_zbx(x, p);
-	if (p->flags[ZPAD] && p->flags[NODIGIT] && !p->flags[LEFT])
+	if (p->flags[ZPAD] && !p->precision && !p->flags[LEFT])
 		while (p->padding-- > ln && ret++)
 			pchar('0');
 	while (!p->flags[ZPAD] && p->padding-- > ln && ret++)

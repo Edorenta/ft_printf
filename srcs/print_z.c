@@ -25,7 +25,7 @@ int		print_zd(long d, t_param *p)
 	{
 		ici = 1;
 		p->flags[PLUS] ? pchar('+') : pchar(32);
-		(ret)++;
+		ret++;
 	}
 	if (d < 0)
 	{
@@ -36,12 +36,12 @@ int		print_zd(long d, t_param *p)
 		ret++;
 		d = -d;
 	}
-	if (p->flags[ZPAD] && p->flags[NODIGIT] && !p->flags[LEFT])
+	if (p->flags[ZPAD] && !p->precision && !p->flags[LEFT])
 		while (p->padding-- > len_long(d, 10) + ici && ret++)
 			pchar('0');
 	while (p->precision-- > len_long(d, 10) && ret++)
 		pchar('0');
-	plong_base(d, 10);
+	plong(d, 10);
 	ret += len_long(d, 10) - q;
 	return (ret);
 }

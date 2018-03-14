@@ -64,7 +64,7 @@ int		print_d(int d, t_param *p)
 		ret++;
 		d = -d;
 	}
-	if (p->flags[ZPAD] && p->flags[NODIGIT] && !p->flags[LEFT])
+	if (p->flags[ZPAD] && !p->precision && !p->flags[LEFT])
 		while (p->padding-- > len_int(d, 10) + ici && ret++)
 			pchar('0');
 	while (p->precision-- > len_int(d, 10) && ret++)
@@ -98,7 +98,7 @@ int		print_bd(long d, t_param *p)
 		ret++;
 		d *= -1;
 	}
-	if (p->flags[ZPAD] && p->flags[NODIGIT] && !p->flags[LEFT])
+	if (p->flags[ZPAD] && !p->precision && !p->flags[LEFT])
 		while (p->padding-- > len_long(d, 10) + ici && ret++)
 			pchar('0');
 	while (p->precision-- > len_long(d, 10) && ret++)
