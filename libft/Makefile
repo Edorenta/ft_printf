@@ -15,7 +15,7 @@ SRCS_PATH	= srcs/
 OBJS_PATH	= objs/
 I_PATH		= -I includes
 FLAGS		= -Wall -Wextra -g $(I_PATH) #-Wpedantic
-CC			= clang $(FLAGS)
+CC		= gcc $(FLAGS)
 SRCS_SUBDIRS= $(shell find $(SRCS_PATH) -type d)
 SRCS_FILES	= $(shell find $(SRCS_PATH)/* -type f -name "*.c"\
 				 -exec basename {} \;)
