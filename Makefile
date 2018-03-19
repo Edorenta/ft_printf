@@ -14,9 +14,10 @@ NAME		= libftprintf.a
 NAME_P		= ft_printf
 FILES		=	ft_vasprintf		ft_printf		ft_vprintf	\
 				fmt_parser			fmt_converter	fmt_debug	\
-				fmt_dDiu			fmt_fF			fmt_eEgG	\
-				fmt_aA				fmt_oOxX		fmt_cCsSr	\
+				fmt_dcdiu			fmt_fcf			fmt_ecegcg	\
+				fmt_aca				fmt_ocoxcx		fmt_cccscsr	\
 				fmt_bpn
+
 SRCS		= $(addprefix $(SRCS_PATH),$(addsuffix .c,$(FILES)))
 OBJS		= $(addprefix $(OBJS_PATH),$(addsuffix .o,$(FILES)))
 
