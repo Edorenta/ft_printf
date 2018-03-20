@@ -12,10 +12,42 @@
 
 #include "char_class.h"
 
-int		ft_atoi(const char *str)
+int				ft_atoi(const char *str)
 {
 	int		nb;
 	int		sign;
+
+	while (ft_isspace(*str))
+		++str;
+	sign = *str == '-' ? -1 : 1;
+	if (*str == '+' || *str == '-')
+		++str;
+	nb = 0;
+	while (ft_isdigit(*str))
+		nb = 10 * nb + sign * (*str++ - '0');
+	return (nb);
+}
+
+long			ft_atol(const char *str)
+{
+	long		nb;
+	long		sign;
+
+	while (ft_isspace(*str))
+		++str;
+	sign = *str == '-' ? -1 : 1;
+	if (*str == '+' || *str == '-')
+		++str;
+	nb = 0;
+	while (ft_isdigit(*str))
+		nb = 10 * nb + sign * (*str++ - '0');
+	return (nb);
+}
+
+long long		ft_atoll(const char *str)
+{
+	long long		nb;
+	long long		sign;
 
 	while (ft_isspace(*str))
 		++str;

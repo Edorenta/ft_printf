@@ -40,7 +40,7 @@
 # define _MIN9(A,...) (_MIN2(A, _MIN8(__VA_ARGS__)))
 
 # define _MAX1(A) (A)
-# define _MAX2(A,B) ((A) < (B) ? (A) : (B))
+# define _MAX2(A,B) ((A) > (B) ? (A) : (B))
 # define _MAX3(A,B,C) (_MAX2(A, _MAX2(B, C)))
 # define _MAX4(A,...) (_MAX2(A, _MAX3(__VA_ARGS__)))
 # define _MAX5(A,...) (_MAX2(A, _MAX4(__VA_ARGS__)))

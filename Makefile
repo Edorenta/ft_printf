@@ -6,7 +6,7 @@
 #    By: pde-rent <pde-rent@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/01 20:07:00 by pde-rent          #+#    #+#              #
-#    Updated: 2018/03/15 11:20:37 by pde-rent         ###   ########.fr        #
+#    Updated: 2018/03/20 15:55:35 by pde-rent         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -17,7 +17,6 @@ FILES		=	ft_vasprintf		ft_printf		ft_vprintf	\
 				fmt_dcdiu			fmt_fcf			fmt_ecegcg	\
 				fmt_aca				fmt_ocoxcx		fmt_cccscsr	\
 				fmt_bpn
-
 SRCS		= $(addprefix $(SRCS_PATH),$(addsuffix .c,$(FILES)))
 OBJS		= $(addprefix $(OBJS_PATH),$(addsuffix .o,$(FILES)))
 

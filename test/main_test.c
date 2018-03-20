@@ -6,7 +6,7 @@
 /*   By: pde-rent <pde-rent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/01 19:15:32 by pde-rent          #+#    #+#             */
-/*   Updated: 2017/09/22 22:23:39 by pde-rent         ###   ########.fr       */
+/*   Updated: 2018/03/20 16:00:49 by pde-rent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,14 @@ int		main(int ac, char **av)
 	TEST("26-Wildcard _%*.*s_%*.*s_", 50, 5, "Hello world", 5, 50, "Hello world");
 	TEST("27-Wildcard _%*.*s_%*.*s_", 50, -5, "Hello world", -5, 50, "Hello world");
 	TEST("28-Char {%05.c}", 0);
-
+	TEST("29-Float _%#f_", -61234.9846);
+	TEST("2A-Float _%F_", 152.85);
+	TEST("2B-Float _%.0f_", 485.978);
+	TEST("2C-Float _%.0#F_", 1.000058);
+	TEST("2D-Float _%0.0f_", -698465.0);
+	TEST("2E-Float _%0F_", -78620.02546);
+	TEST("2F-Float [p] _%#.10hhhx_", -61234);
+	
 	int a,b,c,d,e,f;
 	ft_printf("~ Flag%nWooWo% %[% 20.010-5n]%n\n", &a, &b, &c);
 	printf("~ Flag%nWooWo% %[% 20.010-5n]%n\n", &d, &e, &f);

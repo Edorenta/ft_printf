@@ -62,6 +62,7 @@ int				ft_idigits(int x, uint8_t b);
 int				ft_ldigits(long x, uint8_t b);
 int				ft_lldigits(long long x, uint8_t b);
 int				ft_ddigits(double x, uint8_t b);
+int				ft_decimals(double x, uint8_t b);
 int				ft_ifloor(double n);
 long			ft_lfloor(double n);
 long long		ft_llfloor(double n);

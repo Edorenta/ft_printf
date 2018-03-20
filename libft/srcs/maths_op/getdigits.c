@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "maths_op.h"
 #ifndef STDINT_H
 # include <stdint.h>
 #endif
@@ -32,4 +33,20 @@ int		ft_lldigits(long long x, uint8_t b)
 int		ft_ddigits(double x, uint8_t b)
 {
 	return (x < b ? 0 : (1 + (ft_ddigits((x / (double)b), b))));
+}
+
+int		ft_decimals(double x, uint8_t b)
+{
+	int i;
+
+	i = 0;
+	x = ft_dabs(x);
+	x -= (long long)(x);
+	while (ft_dabs(x) >= 0.00001)
+	{
+		x *= (double)b;
+		x -= (long long)(x);
+		i++;
+	}
+	return (i);
 }
